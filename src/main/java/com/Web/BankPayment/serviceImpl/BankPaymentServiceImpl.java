@@ -61,6 +61,7 @@ public class BankPaymentServiceImpl implements BankPaymentServiceInterface {
 			else {
 				transaction = new BankTransaction();
 				modelMapper.map(dto,  transaction);
+				transaction.setChannelID(dto.getCustomerVirtualAccountID().substring(2, 3));
 				System.out.println(transaction);
 				bankPaymentRepo.save(transaction);
 

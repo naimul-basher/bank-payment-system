@@ -23,6 +23,7 @@ public class BankTransaction {
 	private Integer amount;
 	private String paymentType;					//	Type = {Cash, Pay-Order, Bank Draft, EFTB, RTGS}
 	private String productCode;					//	GP1001
+	private String channelID;
 	
 	@Column(columnDefinition="TIMESTAMP")
 	private LocalDateTime depositDateTime;		// 	aka value-date
@@ -124,17 +125,22 @@ public class BankTransaction {
 	public void setProductCode(String productCode) {
 		this.productCode = productCode;
 	}
+	public String getChannelID() {
+		return channelID;
+	}
+	public void setChannelID(String channelID) {
+		this.channelID = channelID;
+	}
+	
 	@Override
 	public String toString() {
 		return "BankTransaction [commonTransactionID=" + commonTransactionID + ", bankTransactionID="
 				+ bankTransactionID + ", customerVirtualAccountID=" + customerVirtualAccountID + ", bankName="
 				+ bankName + ", bankID=" + bankID + ", branchCode=" + branchCode + ", currencyCode=" + currencyCode
 				+ ", amount=" + amount + ", paymentType=" + paymentType + ", productCode=" + productCode
-				+ ", depositDateTime=" + depositDateTime + ", transactionDateTime=" + transactionDateTime
-				+ ", instrumentNumber=" + instrumentNumber + ", debitOrCredit=" + debitOrCredit + ", remarks=" + remarks
-				+ "]";
+				+ ", channelID=" + channelID + ", depositDateTime=" + depositDateTime + ", transactionDateTime="
+				+ transactionDateTime + ", instrumentNumber=" + instrumentNumber + ", debitOrCredit=" + debitOrCredit
+				+ ", remarks=" + remarks + "]";
 	}
-	
-	
 
 }

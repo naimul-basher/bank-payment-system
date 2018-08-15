@@ -27,9 +27,9 @@ public class ViewServiceImpl implements ViewServiceInterface {
 	private Response response;
 	
 	@Autowired
-	public ViewServiceImpl (final UserRepository userRepo) {
+	public ViewServiceImpl (final UserRepository userRepo, final Response response) {
 		this.userRepo = userRepo;
-		response = new Response();
+		this.response = response;
 	}
 
 	@Override

@@ -30,7 +30,8 @@ public class BankPaymentApplication {
 	         
 	    registrationBean.setFilter(new TokenFilter());
 	    registrationBean.addUrlPatterns("/api/v1/users/*");
-	         
+	    // registrationBean.addUrlPatterns("/api/v1/customer/*");
+	    
 	    return registrationBean;    
 	}
 
