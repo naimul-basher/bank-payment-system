@@ -47,7 +47,6 @@ public class CustomerServiceImpl implements CustomerServiceInterface {
 		this.walletRepo = walletRepo;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public ResponseEntity<Response> saveCustomerList(CustomerDTO dto, BindingResult bindingResult,
 			HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
@@ -56,7 +55,8 @@ public class CustomerServiceImpl implements CustomerServiceInterface {
 		Claims claims = (Claims)servletRequest.getAttribute("claims");
 		
 		if(claims != null) {
-			
+
+			/*
 			try {
 				job = (Job) SpringApplicationContext.getBean("importCustomerJob");
 				JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
@@ -67,7 +67,7 @@ public class CustomerServiceImpl implements CustomerServiceInterface {
 				e.printStackTrace();
 			}
 			
-			
+			*/
 			/*
 			ApplicationContext ctx;
 			
