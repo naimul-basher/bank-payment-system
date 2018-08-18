@@ -24,17 +24,17 @@ import io.jsonwebtoken.Claims;
 public class ViewServiceImpl implements ViewServiceInterface {
 	
 	private final UserRepository userRepo;
-	private Response response;
+	Response response = new Response();
 	
 	@Autowired
-	public ViewServiceImpl (final UserRepository userRepo, final Response response) {
+	public ViewServiceImpl (final UserRepository userRepo) {
 		this.userRepo = userRepo;
-		this.response = response;
 	}
 
 	@Override
 	public ResponseEntity<Response> viewAll(HttpServletRequest servletRequest, 
 			HttpServletResponse servletResponse) {
+		
 		
 		Claims claims = (Claims)servletRequest.getAttribute("claims");
 		
