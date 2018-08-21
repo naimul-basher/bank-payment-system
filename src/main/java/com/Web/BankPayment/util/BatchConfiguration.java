@@ -22,7 +22,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.UrlResource;
 
 import com.Web.BankPayment.models.Customer;
+import com.Web.BankPayment.models.Wallet;
 import com.Web.BankPayment.repository.CustomerRepository;
+import com.Web.BankPayment.repository.WalletRepository;
 
 
 @Configuration
@@ -31,6 +33,9 @@ public class BatchConfiguration {
 	
 	@Autowired
 	private CustomerRepository customerRepo;
+	
+	@Autowired
+	private WalletRepository walletRepo;
 	
 	@Autowired
     public JobBuilderFactory jobBuilderFactory;
@@ -43,21 +48,32 @@ public class BatchConfiguration {
     
     
 	@Bean
-    public Job job(Step step1) {
+    public Job job(Step stepCustomer, Step StepWallet) {
         return jobBuilderFactory.get("job")
                 .incrementer(new RunIdIncrementer())
-                .flow(step1)
+                .flow(stepCustomer)
+                .next(StepWallet)
                 .end()
                 .build();
     }
 
     @Bean
-    public Step step1(FlatFileItemReader<Customer> reader, RepositoryItemWriter<Customer> writer) {
-        return stepBuilderFactory.get("step1")
+    public Step stepCustomer (FlatFileItemReader<Customer> reader, RepositoryItemWriter<Customer> writerCustomer) {
+        return stepBuilderFactory.get("step-customer")
                 .<Customer, Customer> chunk(10)
                 .reader(reader)
-//                .processor(processor())
-                .writer(writer)
+                .processor(new CustomerItemProcessor())
+                .writer(writerCustomer)
+                .build();
+    }
+    
+    @Bean
+    public Step StepWallet (FlatFileItemReader<Customer> reader, RepositoryItemWriter<Wallet> writerWallet) {
+        return stepBuilderFactory.get("step-wallet")
+                .<Customer, Wallet> chunk(10)
+                .reader(reader)
+                .processor(new WalletItemProcessor())
+                .writer(writerWallet)
                 .build();
     }
     
@@ -65,12 +81,11 @@ public class BatchConfiguration {
     @StepScope
     public FlatFileItemReader<Customer> reader(@Value("#{jobParameters['fileName']}") String fileName) throws MalformedURLException {
     	
-    	String filePath = "file:/" + fileName;
-    	//System.out.println("Inside Reader: " + filePath);
+    	//String filePath = "file:/" + fileName;
 
     	customerFileReader = new FlatFileItemReaderBuilder<Customer>()
             .name("customerItemReader")
-            .resource(new UrlResource(filePath))
+            .resource(new UrlResource("file:/" + fileName))
             .delimited()
             .names(new String[]{"customerVirtualAccountID", "customerName", "ERPCode", "POSCode"})
             .fieldSetMapper(new BeanWrapperFieldSetMapper<Customer>() {{
@@ -81,19 +96,23 @@ public class BatchConfiguration {
         return customerFileReader;
     }
     
-    /*
+    
     @Bean
-	public CustomerItemProcessor processor() {
-		return new CustomerItemProcessor();
-	}
-	*/
-
-    @Bean
-    public RepositoryItemWriter<Customer> writer() {
+    public RepositoryItemWriter<Customer> writerCustomer() {
     	
     	RepositoryItemWriterBuilder<Customer> repoItemBuilder = new RepositoryItemWriterBuilder<Customer>();
     	repoItemBuilder.methodName("save");
     	repoItemBuilder.repository(customerRepo);
+    	
+    	return repoItemBuilder.build();
+    }
+
+    @Bean
+    public RepositoryItemWriter<Wallet> writerWallet() {
+    	
+    	RepositoryItemWriterBuilder<Wallet> repoItemBuilder = new RepositoryItemWriterBuilder<Wallet>();
+    	repoItemBuilder.methodName("save");
+    	repoItemBuilder.repository(walletRepo);
     	
     	return repoItemBuilder.build();
     }

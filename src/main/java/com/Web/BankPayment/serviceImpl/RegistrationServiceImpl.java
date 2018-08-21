@@ -62,7 +62,7 @@ public class RegistrationServiceImpl implements RegistrationServiceInterface {
 				response.setStatus("Created");
 				response.setStatusCode(201);
 				response.setMessage("New User Created");
-				response.setContent(null);
+				response.setContent(user);
 				
 				return new ResponseEntity<Response> (response, HttpStatus.CREATED);				
 			}
