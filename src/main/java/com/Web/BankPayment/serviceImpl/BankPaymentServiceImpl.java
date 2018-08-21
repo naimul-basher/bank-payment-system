@@ -1,5 +1,7 @@
 package com.Web.BankPayment.serviceImpl;
 
+import java.time.LocalDateTime;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.modelmapper.ModelMapper;
@@ -13,7 +15,9 @@ import org.springframework.validation.BindingResult;
 import com.Web.BankPayment.dto.BankPaymentDTO;
 import com.Web.BankPayment.dto.Response;
 import com.Web.BankPayment.models.BankTransaction;
+import com.Web.BankPayment.models.Wallet;
 import com.Web.BankPayment.repository.BankPaymentRepository;
+import com.Web.BankPayment.repository.WalletRepository;
 import com.Web.BankPayment.serviceInterfaces.BankPaymentServiceInterface;
 
 
@@ -22,14 +26,17 @@ import com.Web.BankPayment.serviceInterfaces.BankPaymentServiceInterface;
 public class BankPaymentServiceImpl implements BankPaymentServiceInterface {
 
 	private final BankPaymentRepository bankPaymentRepo;
+	private final WalletRepository walletRepo;
 	private final ModelMapper modelMapper;
 	private BankTransaction transaction;
+	private Wallet wallet;
 
 	@Autowired
-	public BankPaymentServiceImpl (final BankPaymentRepository bankPaymentRepo, final ModelMapper modelMapper) {
+	public BankPaymentServiceImpl (final BankPaymentRepository bankPaymentRepo, final ModelMapper modelMapper, 
+			 final WalletRepository walletRepo) {
 		this.bankPaymentRepo = bankPaymentRepo;
+		this.walletRepo = walletRepo;
 		this.modelMapper = modelMapper;
-		transaction = new BankTransaction();
 	}
 
 	@Override
@@ -49,7 +56,8 @@ public class BankPaymentServiceImpl implements BankPaymentServiceInterface {
 		else {
 
 			if ( (transaction = bankPaymentRepo.findBybankTransactionID(dto.getBankTransactionID()) ) != null &&
-					transaction.getBankID() == dto.getBankID() ) {
+					transaction.getBankID().matches(dto.getBankID()) ) {
+
 				System.out.println(transaction);
 				response.setStatus("Duplicate");
 				response.setStatusCode(409);
@@ -60,15 +68,30 @@ public class BankPaymentServiceImpl implements BankPaymentServiceInterface {
 			}
 			else {
 				transaction = new BankTransaction();
+				wallet = new Wallet();
+				
 				modelMapper.map(dto,  transaction);
-				transaction.setChannelID(dto.getCustomerVirtualAccountID().substring(2, 3));
+				transaction.setChannelID(dto.getCustomerVirtualAccountID().substring(2, 4));
+								
+				if ( (wallet = walletRepo.findBycustomerWalletID(dto.getCustomerVirtualAccountID().substring(2)) ) != null ) {
+
+					wallet.setBalance(wallet.getBalance() + dto.getAmount());
+					wallet.setLastUpdateDateTime(LocalDateTime.now());
+					transaction.setIsSettled(true);
+
+					System.out.println(wallet);
+					walletRepo.save(wallet);
+				}
+				else 
+					transaction.setIsSettled(false);
+				
 				System.out.println(transaction);
 				bankPaymentRepo.save(transaction);
-
+				
 				response.setStatus("Created");
 				response.setStatusCode(201);
 				response.setMessage("New Transaction Created");
-				response.setContent(null);
+				response.setContent(transaction);
 				
 				return new ResponseEntity<Response> (response, HttpStatus.CREATED);				
 			}

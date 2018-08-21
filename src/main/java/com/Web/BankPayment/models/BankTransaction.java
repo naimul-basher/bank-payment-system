@@ -14,13 +14,13 @@ public class BankTransaction {
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer commonTransactionID;
-	private Integer bankTransactionID;
+	private String bankTransactionID;
 	private String customerVirtualAccountID;
 	private String bankName;
-	private Integer bankID;
-	private Integer branchCode;
+	private String bankID;
+	private String branchCode;
 	private String currencyCode;				//	Code = {BDT, USD, NOK}
-	private Integer amount;
+	private Double amount;
 	private String paymentType;					//	Type = {Cash, Pay-Order, Bank Draft, EFTB, RTGS}
 	private String productCode;					//	GP1001
 	private String channelID;
@@ -33,18 +33,17 @@ public class BankTransaction {
 	private String instrumentNumber;			// Check, Bank Draft, Pay-Order, EFTN, RTGS identity
 	private String debitOrCredit;
 	private String remarks;						//	Transaction Details
-	
-	
+	private Boolean isSettled;
 	public Integer getCommonTransactionID() {
 		return commonTransactionID;
 	}
 	public void setCommonTransactionID(Integer commonTransactionID) {
 		this.commonTransactionID = commonTransactionID;
 	}
-	public Integer getBankTransactionID() {
+	public String getBankTransactionID() {
 		return bankTransactionID;
 	}
-	public void setBankTransactionID(Integer bankTransactionID) {
+	public void setBankTransactionID(String bankTransactionID) {
 		this.bankTransactionID = bankTransactionID;
 	}
 	public String getCustomerVirtualAccountID() {
@@ -59,17 +58,47 @@ public class BankTransaction {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
-	public Integer getBankID() {
+	public String getBankID() {
 		return bankID;
 	}
-	public void setBankID(Integer bankID) {
+	public void setBankID(String bankID) {
 		this.bankID = bankID;
 	}
-	public Integer getAmount() {
+	public String getBranchCode() {
+		return branchCode;
+	}
+	public void setBranchCode(String branchCode) {
+		this.branchCode = branchCode;
+	}
+	public String getCurrencyCode() {
+		return currencyCode;
+	}
+	public void setCurrencyCode(String currencyCode) {
+		this.currencyCode = currencyCode;
+	}
+	public Double getAmount() {
 		return amount;
 	}
-	public void setAmount(Integer amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+	public String getPaymentType() {
+		return paymentType;
+	}
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
+	public String getProductCode() {
+		return productCode;
+	}
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+	public String getChannelID() {
+		return channelID;
+	}
+	public void setChannelID(String channelID) {
+		this.channelID = channelID;
 	}
 	public LocalDateTime getDepositDateTime() {
 		return depositDateTime;
@@ -101,37 +130,13 @@ public class BankTransaction {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public Integer getBranchCode() {
-		return branchCode;
+	public Boolean getIsSettled() {
+		return isSettled;
 	}
-	public void setBranchCode(Integer branchCode) {
-		this.branchCode = branchCode;
+	public void setIsSettled(Boolean isSettled) {
+		this.isSettled = isSettled;
 	}
-	public String getCurrencyCode() {
-		return currencyCode;
-	}
-	public void setCurrencyCode(String currencyCode) {
-		this.currencyCode = currencyCode;
-	}
-	public String getPaymentType() {
-		return paymentType;
-	}
-	public void setPaymentType(String paymentType) {
-		this.paymentType = paymentType;
-	}
-	public String getProductCode() {
-		return productCode;
-	}
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
-	}
-	public String getChannelID() {
-		return channelID;
-	}
-	public void setChannelID(String channelID) {
-		this.channelID = channelID;
-	}
-	
+
 	@Override
 	public String toString() {
 		return "BankTransaction [commonTransactionID=" + commonTransactionID + ", bankTransactionID="
@@ -140,7 +145,7 @@ public class BankTransaction {
 				+ ", amount=" + amount + ", paymentType=" + paymentType + ", productCode=" + productCode
 				+ ", channelID=" + channelID + ", depositDateTime=" + depositDateTime + ", transactionDateTime="
 				+ transactionDateTime + ", instrumentNumber=" + instrumentNumber + ", debitOrCredit=" + debitOrCredit
-				+ ", remarks=" + remarks + "]";
-	}
-
+				+ ", remarks=" + remarks + ", isSettled=" + isSettled + "]";
+	} 
+	
 }

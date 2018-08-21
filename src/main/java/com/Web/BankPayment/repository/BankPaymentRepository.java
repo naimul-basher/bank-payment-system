@@ -6,6 +6,6 @@ import com.Web.BankPayment.models.BankTransaction;
 
 public interface BankPaymentRepository extends JpaRepository<BankTransaction, Integer> {
 	
-	public BankTransaction findBybankTransactionID (Integer bankTransactionID);
+	public BankTransaction findBybankTransactionID (String bankTransactionID);
 
 }
