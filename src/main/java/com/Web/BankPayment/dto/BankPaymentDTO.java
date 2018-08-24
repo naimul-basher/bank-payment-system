@@ -9,15 +9,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class BankPaymentDTO {
 	
-	@NotNull
+	@NotEmpty
 	private String bankTransactionID;
 	@NotEmpty
 	private String customerVirtualAccountID;
 	@NotEmpty
 	private String bankName;
-	@NotNull
+	@NotEmpty
 	private String bankID;
-	@NotNull
+	@NotEmpty
 	private String branchCode;
 	@NotEmpty
 	private String currencyCode;		
