@@ -11,8 +11,8 @@ public class Customer {
 	@Id
 	private String customerVirtualAccountID;
 	private String customerName;
-	private String ERPCode;
-	private String POSCode;
+	private String customerERPCode;
+	private String customerPOSCode;
 	private String customerWalletID;
 	private String channelID;
 	
@@ -28,17 +28,17 @@ public class Customer {
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
 	}
-	public String getERPCode() {
-		return ERPCode;
+	public String getCustomerERPCode() {
+		return customerERPCode;
 	}
-	public void setERPCode(String eRPCode) {
-		ERPCode = eRPCode;
+	public void setCustomerERPCode(String customerERPCode) {
+		this.customerERPCode = customerERPCode;
 	}
-	public String getPOSCode() {
-		return POSCode;
+	public String getCustomerPOSCode() {
+		return customerPOSCode;
 	}
-	public void setPOSCode(String pOSCode) {
-		POSCode = pOSCode;
+	public void setCustomerPOSCode(String customerPOSCode) {
+		this.customerPOSCode = customerPOSCode;
 	}
 	public String getCustomerWalletID() {
 		return customerWalletID;
@@ -52,13 +52,12 @@ public class Customer {
 	public void setChannelID(String channelID) {
 		this.channelID = channelID;
 	}
+	
 	@Override
 	public String toString() {
 		return "Customer [customerVirtualAccountID=" + customerVirtualAccountID + ", customerName=" + customerName
-				+ ", ERPCode=" + ERPCode + ", POSCode=" + POSCode + ", customerWalletID=" + customerWalletID
-				+ ", channelID=" + channelID + "]";
+				+ ", customerERPCode=" + customerERPCode + ", customerPOSCode=" + customerPOSCode
+				+ ", customerWalletID=" + customerWalletID + ", channelID=" + channelID + "]";
 	}
 	
-	
-
 }

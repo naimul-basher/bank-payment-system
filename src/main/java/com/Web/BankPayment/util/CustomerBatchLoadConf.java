@@ -1,6 +1,7 @@
 package com.Web.BankPayment.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.net.MalformedURLException;
@@ -27,9 +28,9 @@ import com.Web.BankPayment.repository.CustomerRepository;
 import com.Web.BankPayment.repository.WalletRepository;
 
 
-//@Configuration
-//@EnableBatchProcessing
-public class BatchConfiguration {
+@Configuration
+@EnableBatchProcessing
+public class CustomerBatchLoadConf {
 	
 	@Autowired
 	private CustomerRepository customerRepo;
@@ -48,6 +49,7 @@ public class BatchConfiguration {
     
     
 	@Bean
+	@Qualifier("customer-load-job")
     public Job job(Step stepCustomer, Step stepWallet) {
         return jobBuilderFactory.get("job")
                 .incrementer(new RunIdIncrementer())

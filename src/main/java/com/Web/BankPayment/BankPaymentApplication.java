@@ -6,12 +6,14 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.Web.BankPayment.util.TokenFilter;
 
 
 @SpringBootApplication
 @EnableAutoConfiguration
+@EnableScheduling
 public class BankPaymentApplication {
 
 	public static void main(String[] args) {

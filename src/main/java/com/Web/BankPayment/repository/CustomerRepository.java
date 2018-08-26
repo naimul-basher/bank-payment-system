@@ -7,5 +7,6 @@ import com.Web.BankPayment.models.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, String> {
 	
 	public Customer findBycustomerVirtualAccountID(String customerVirtualAccountID);
+	public Customer findBycustomerPOSCode(String customerPOSCode);
 
 }

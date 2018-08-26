@@ -11,6 +11,7 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class CustomerServiceImpl implements CustomerServiceInterface {
     JobLauncher jobLauncher;
 
     @Autowired
+    @Qualifier("customer-load-job")
     private Job job;
     
     private Integer jobStepCount;
