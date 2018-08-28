@@ -11,7 +11,7 @@ public interface ViewServiceInterface {
 	
 	public ResponseEntity<Response> viewAll(HttpServletRequest ServletRequest, 
 			HttpServletResponse servletResponse);
+	
 	public ResponseEntity<Response> viewById(Integer id, 
 			HttpServletRequest ServletRequest, HttpServletResponse servletResponse);
-
 }
