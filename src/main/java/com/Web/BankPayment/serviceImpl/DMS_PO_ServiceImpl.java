@@ -1,5 +1,8 @@
 package com.Web.BankPayment.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.modelmapper.ModelMapper;
@@ -24,10 +27,38 @@ public class DMS_PO_ServiceImpl implements DMS_PO_ServiceInterface {
 	private final ModelMapper modelMapper;
 	private DMS_PO DMS_purchase_order;
 	
+	List<DMS_PO> pendingPOList = new ArrayList<DMS_PO>();
+	
 	@Autowired
 	public DMS_PO_ServiceImpl(final DMS_PORepository dMS_PO_repo, final ModelMapper modelMapper) {
 		this.DMS_PO_repo = dMS_PO_repo;
 		this.modelMapper = modelMapper;
+	}
+	
+	@Override
+	public ResponseEntity<Response> viewAllPendingPO(HttpServletResponse servletResponse) {
+		
+		pendingPOList = DMS_PO_repo.findByclearPO(false);
+		
+		Response response = new Response();
+		
+		if (!pendingPOList.isEmpty()) {
+			response.setStatus("Success");
+			response.setStatusCode(302);
+			response.setMessage("Pending PO Found");
+			response.setContent(pendingPOList);
+			
+			return new ResponseEntity<Response> (response, HttpStatus.FOUND);
+		}
+		else {
+			response.setStatus("Not Found");
+			response.setStatusCode(404);
+			response.setMessage("No Pending PO Found");
+			response.setContent(null);
+			
+			return new ResponseEntity<Response> (response, HttpStatus.NOT_FOUND);
+		}		
+		
 	}
 	
 	@Override

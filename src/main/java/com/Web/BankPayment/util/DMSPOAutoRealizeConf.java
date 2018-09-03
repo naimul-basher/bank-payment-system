@@ -31,7 +31,7 @@ public class DMSPOAutoRealizeConf {
 	
 	List<DMS_PO> pendingPOList = new ArrayList<DMS_PO>();
 	
-	@Scheduled(fixedRate = 10000)		// 10 seconds interval
+	@Scheduled(fixedRate = 100000)		// 10 seconds interval
 	public void DMSPOAutoReconcile() {
 				
 		pendingPOList = dmsPORepo.findByclearPO(false);

@@ -13,4 +13,5 @@ public interface DMS_PO_ServiceInterface {
 	public ResponseEntity<Response> saveDMS_PO(DMS_PO_DTO dto, BindingResult bindingResult, 
 			HttpServletResponse servletResponse);
 
+	public ResponseEntity<Response> viewAllPendingPO(HttpServletResponse servletResponse);
 }
