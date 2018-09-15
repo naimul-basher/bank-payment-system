@@ -34,6 +34,8 @@ public class BankTransaction {
 	private String debitOrCredit;
 	private String remarks;						//	Transaction Details
 	private Boolean isSettled;
+	private Boolean isReconciled;				//	If transaction reconciled; for DTR/POSTPAID channels, default TRUE
+	
 	public Integer getCommonTransactionID() {
 		return commonTransactionID;
 	}
@@ -146,6 +148,12 @@ public class BankTransaction {
 				+ ", channelID=" + channelID + ", depositDateTime=" + depositDateTime + ", transactionDateTime="
 				+ transactionDateTime + ", instrumentNumber=" + instrumentNumber + ", debitOrCredit=" + debitOrCredit
 				+ ", remarks=" + remarks + ", isSettled=" + isSettled + "]";
+	}
+	public Boolean getIsReconciled() {
+		return isReconciled;
+	}
+	public void setIsReconciled(Boolean isReconciled) {
+		this.isReconciled = isReconciled;
 	} 
 	
 }
